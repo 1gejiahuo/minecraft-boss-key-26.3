@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="bosskeyneoforge"
+version="0.4.0-preview"
+displayName="Boss Key NeoForge"
+description="Windows boss key for Minecraft Java 26.3."
+
+[[dependencies.bosskeyneoforge]]
+modId="neoforge"
+type="required"
+versionRange="[26.3.0.99,26.4)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.bosskeyneoforge]]
+modId="minecraft"
+type="required"
+versionRange="[26.3,26.4)"
+ordering="NONE"
+side="CLIENT"
+

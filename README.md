@@ -2,7 +2,7 @@
 
 老板或家长突然走到电脑旁？**Ctrl+Shift+C 一键收起 Minecraft**：游戏画面从桌面和任务栏消失，声音同步安静；等查岗结束，再按一次就能回到游戏，不必退出世界或重新进服务器。快捷键是 Windows 全局热键，游戏窗口隐藏后依然可以触发。
 
-项目提供 **Windows 通用独立程序**、**Fabric 通用入口**与 **26.3 原生 Fabric Mod**。独立程序面向 Windows 上 Java 版 1.0 起的正式版及愚人节版。Fabric 通用入口面向 Fabric 官方支持的版本，内置并启动同一 Windows 程序，通过游戏进程 ID 精确识别窗口。任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
+项目提供 **Windows 通用独立程序**、**Fabric 通用入口**、**26.3 原生 Fabric Mod**，以及 NeoForge 26.3、Forge 1.12.2 适配入口。独立程序面向 Windows 上 Java 版 1.0 起的正式版及愚人节版。各加载器入口内置并启动同一 Windows 程序，通过游戏进程 ID 精确识别窗口。任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
 
 > 目前为预览版：代码已编译，但尚未逐一在所有正式版和愚人节版中实机验证。不同启动器、Java 运行时和全屏方式可能需要调整配置；见下方兼容说明。
 
@@ -21,12 +21,14 @@
 | Windows 独立程序 | 运行 `BossKey-Minecraft-Java.exe`；无需 Mod | 将游戏音频会话静音，恢复时还原原状态 | Windows + Java 版 1.0 起正式版及愚人节版；识别游戏所在的 Java 窗口 |
 | Fabric 通用入口 | 将 `boss-key-fabric-universal-0.3.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Fabric 官方支持的 Java 版 1.14 起正式版，以及可安装 Fabric 的愚人节版；Windows 64 位 + .NET Framework 4.8 |
 | 26.3 原生 Fabric Mod | 将 `boss-key-26.3-0.1.0.jar` 放入 `mods` | 暂停游戏音效，恢复时继续 | Minecraft Java 26.3 + Fabric Loader + Fabric API + Java 25 |
+| NeoForge 26.3 | 将 `boss-key-neoforge-26.3-0.4.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Minecraft Java 26.3 + NeoForge 26.3.0.99 起 + Windows 64 位 + .NET Framework 4.8 |
+| Forge 1.12.2 | 将 `boss-key-forge-1.12.2-0.4.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Minecraft Java 1.12.2 + Forge + Windows 64 位 + .NET Framework 4.8 |
 
 这些版本都不创建托盘图标。隐藏游戏窗口后，任务栏中不应再显示该游戏窗口；程序或游戏进程仍在任务管理器中运行。隐藏不会暂停多人服务器，也不会断开连接。
 
 ## 下载与使用
 
-从本仓库的 [downloads](downloads/) 目录下载所需文件。整合包 `minecraft-boss-key-java-1.0-plus-preview.zip` 内含所有程序文件、快捷键配置和说明。Windows 独立版下载 `BossKey-Minecraft-Java.exe` 与 `BossKey.ini`；Fabric 通用入口下载 `boss-key-fabric-universal-0.3.0-preview.jar`；仅在 26.3 使用原生 Mod 时下载 `boss-key-26.3-0.1.0.jar`。
+从本仓库的 [downloads](downloads/) 目录下载所需文件。整合包 `minecraft-boss-key-java-1.0-plus-preview.zip` 内含所有程序文件、快捷键配置和说明。每次只选择一个适合当前加载器的 JAR；不用加载器时使用 `BossKey-Minecraft-Java.exe` 与 `BossKey.ini`。
 
 ### Windows 独立程序
 
@@ -46,6 +48,12 @@
 
 Fabric 官方支持的正式版从 1.14 起；1.0–1.13 请使用 Windows 独立程序。愚人节版需要该版本本身能安装 Fabric Loader。通用入口目前只在 26.3 构建环境下完成编译，尚未逐版本实机验证。
 
+Quilt Loader 通常可以加载 Fabric Mod；可以尝试同一个 Fabric 通用 JAR，但本项目尚未在 Quilt 游戏实例中实测。
+
+### NeoForge 26.3 和 Forge 1.12.2
+
+将对应 JAR 放入游戏实例的 `mods` 文件夹。启动后，入口会把内置程序释放到 `config/bosskey-neoforge-0.4.0/` 或 `config/bosskey-forge-0.4.0/`，随后可用 **Ctrl+Shift+C** 隐藏或恢复。两个适配器已用官方加载器依赖编译、检查 JAR 内容，尚未在游戏中验证。其他 Forge/NeoForge 版本请使用 Windows 独立程序。
+
 ### 26.3 原生 Fabric Mod
 
 1. 安装与 Minecraft Java 26.3 对应的 Fabric Loader 和 Fabric API。
@@ -60,6 +68,7 @@ Mod 仅安装在客户端；服务器无需安装。需要 Java 25。
 
 - **Windows 独立程序：**编辑与 `BossKey-Minecraft-Java.exe` 同目录的 `BossKey.ini`。下载目录已附此文件；如果缺失，首次运行会尝试自动生成。
 - **Fabric 通用入口：**编辑游戏实例目录里的 `config/bosskey-universal-0.3.0/BossKey.ini`。
+- **NeoForge / Forge 适配入口：**分别编辑实例目录的 `config/bosskey-neoforge-0.4.0/BossKey.ini` 或 `config/bosskey-forge-0.4.0/BossKey.ini`。
 - **26.3 原生 Fabric Mod：**首次启动后编辑游戏实例目录里的 `config/bosskey.properties`。
 
 独立版示例：
@@ -102,6 +111,10 @@ hotkey=CTRL+ALT+H
 
 构建产物在 `fabric-mod/build/libs/`。
 
+### NeoForge 26.3 / Forge 1.12.2
+
+在相应目录运行 `build.ps1`。NeoForge 适配器需要 JDK 25；Forge 1.12.2 适配器生成 Java 8 字节码。脚本会下载相应加载器的官方编译依赖，产物在各自的 `out/` 目录。
+
 ### Windows 独立程序
 
 在 `windows-app` 目录运行：
@@ -126,6 +139,7 @@ hotkey=CTRL+ALT+H
 
 - `fabric-mod/`：Fabric 26.3 客户端 Mod。
 - `fabric-universal/`：Java 8 字节码的 Fabric 通用入口及内置 Windows 程序。
+- `neoforge-26.3/` 与 `forge-1.12.2/`：加载器适配入口。
 - `windows-app/`：面向 Java 版 1.0 起正式版及愚人节版的 Windows 后台程序。
 
 基于 [Fabric 官方示例项目](https://github.com/FabricMC/fabric-example-mod)搭建 Mod 构建结构。欢迎通过 Issues 提交 26.3 实机测试结果和问题复现步骤。
@@ -138,7 +152,7 @@ MIT License，见 [LICENSE](LICENSE)。
 
 ## English
 
-A boss key for surprise workplace or parent check-ins: press Ctrl+Shift+C to hide the Minecraft window, remove its taskbar button, and quiet the game; press it again to return. The Windows app targets Java Edition 1.0 onward. The universal Fabric entrypoint bundles that Windows app and targets Fabric-supported versions from 1.14 onward, including April Fools builds when a loader is available. The native Fabric mod targets 26.3. Edit `BossKey.ini` or `config/bosskey.properties` and restart to change shortcuts. The builds compile, but every game version and fullscreen mode has not been tested.
+A boss key for surprise workplace or parent check-ins: press Ctrl+Shift+C to hide the Minecraft window, remove its taskbar button, and quiet the game; press it again to return. The Windows app targets Java Edition 1.0 onward. The universal Fabric entrypoint bundles that Windows app and targets Fabric-supported versions from 1.14 onward, including April Fools builds when a loader is available. Quilt may load that Fabric jar. Separate adapters have been built for NeoForge 26.3 and Forge 1.12.2; the native Fabric mod targets 26.3. Edit `BossKey.ini` or `config/bosskey.properties` and restart to change shortcuts. Game runtime compatibility has not been verified across these versions.
 
 
 

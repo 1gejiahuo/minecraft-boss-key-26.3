@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0-preview — 2026-10-26
+
+- Built separate NeoForge 26.3 and Forge 1.12.2 entrypoint JARs with the bundled Windows helper.
+- Documented Quilt as a candidate for loading the Fabric universal JAR.
+- Loader game runtime checks remain pending.
+
 ## 0.3.0-preview — 2026-10-26
 
 - Added a Java 8 bytecode Fabric entrypoint for Fabric-supported versions. It launches the bundled Windows helper with the game process ID.

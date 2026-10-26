@@ -12,6 +12,11 @@
 
 # Windows build output
 windows-app/*.exe
+neoforge-26.3/.deps/
+neoforge-26.3/out/
+forge-1.12.2/.deps/
+forge-1.12.2/out/
 
 # Local logs
 *.log
+
