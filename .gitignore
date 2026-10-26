@@ -1,0 +1,17 @@
+# Gradle and Loom
+.gradle/
+**/build/
+**/run/
+**/.gradle/
+*.class
+
+# Editors
+.idea/
+.vscode/
+*.iml
+
+# Windows build output
+windows-app/*.exe
+
+# Local logs
+*.log

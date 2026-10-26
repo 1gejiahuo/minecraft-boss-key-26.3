@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "bosskey",
+  "version": "${version}",
+  "name": "Boss Key",
+  "description": "Hide and restore Minecraft with a Windows global shortcut.",
+  "environment": "client",
+  "license": "MIT",
+  "entrypoints": {
+    "client": ["dev.bosskey.BossKeyClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
+
