@@ -130,12 +130,12 @@ internal static class BossKey
     private static IntPtr FindMinecraftWindow()
     {
         IntPtr foreground = GetForegroundWindow();
-        if (IsMinecraftWindow(foreground)) return foreground;
+        if (IsMinecraftWindow(foreground, true)) return foreground;
 
         IntPtr found = IntPtr.Zero;
         EnumWindows(delegate(IntPtr window, IntPtr ignored)
         {
-            if (IsMinecraftWindow(window))
+            if (IsMinecraftWindow(window, false))
             {
                 found = window;
                 return false;
@@ -145,7 +145,7 @@ internal static class BossKey
         return found;
     }
 
-    private static bool IsMinecraftWindow(IntPtr window)
+    private static bool IsMinecraftWindow(IntPtr window, bool isForeground)
     {
         if (window == IntPtr.Zero || !IsWindowVisible(window)) return false;
         int titleLength = GetWindowTextLength(window);
@@ -153,16 +153,12 @@ internal static class BossKey
         StringBuilder title = new StringBuilder(titleLength + 1);
         GetWindowText(window, title, title.Capacity);
         string name = title.ToString();
-        if (name.IndexOf("Minecraft", StringComparison.OrdinalIgnoreCase) < 0 ||
-            name.IndexOf("Launcher", StringComparison.OrdinalIgnoreCase) >= 0) return false;
-
         uint pid;
         GetWindowThreadProcessId(window, out pid);
         try
         {
             string executable = Process.GetProcessById(unchecked((int)pid)).ProcessName;
-            return executable.Equals("javaw", StringComparison.OrdinalIgnoreCase) ||
-                   executable.Equals("java", StringComparison.OrdinalIgnoreCase);
+            return WindowMatcher.Matches(executable, name, isForeground);
         }
         catch { return false; }
     }
@@ -224,6 +220,7 @@ internal static class BossKey
     [DllImport("user32.dll")]
     private static extern bool SetWindowPos(IntPtr window, IntPtr insertAfter, int x, int y, int width, int height, uint flags);
 }
+
 
 
 

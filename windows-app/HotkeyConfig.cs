@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 internal struct Hotkey
 {
@@ -11,19 +13,29 @@ internal struct Hotkey
 
 internal static class HotkeyConfig
 {
+    public static HashSet<string> ProcessNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "java", "javaw" };
+    public static string[] TitleKeywords = { "Minecraft" };
+    public static bool AllowFocusedProcess = true;
+
     public static void Load(out Hotkey toggle, out Hotkey quit)
     {
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BossKey.ini");
         if (!File.Exists(path))
         {
-            try { File.WriteAllText(path, "# Edit the key combinations, then restart BossKey-26.3.exe" + Environment.NewLine
+            try { File.WriteAllText(path, "# Edit settings, then restart BossKey-Minecraft-Java.exe" + Environment.NewLine
                 + "hotkey=CTRL+SHIFT+C" + Environment.NewLine
-                + "exitHotkey=CTRL+SHIFT+X" + Environment.NewLine, Encoding.UTF8); }
+                + "exitHotkey=CTRL+SHIFT+X" + Environment.NewLine
+                + "processNames=java,javaw" + Environment.NewLine
+                + "titleKeywords=Minecraft" + Environment.NewLine
+                + "allowFocusedProcess=true" + Environment.NewLine, Encoding.UTF8); }
             catch { }
         }
 
         string toggleText = "CTRL+SHIFT+C";
         string quitText = "CTRL+SHIFT+X";
+        string processText = "java,javaw";
+        string titleText = "Minecraft";
+        string focusedText = "true";
         if (File.Exists(path))
         {
             foreach (string line in File.ReadAllLines(path, Encoding.UTF8))
@@ -36,6 +48,9 @@ internal static class HotkeyConfig
                 string value = trimmed.Substring(equals + 1).Trim();
                 if (name.Equals("hotkey", StringComparison.OrdinalIgnoreCase)) toggleText = value;
                 else if (name.Equals("exitHotkey", StringComparison.OrdinalIgnoreCase)) quitText = value;
+                else if (name.Equals("processNames", StringComparison.OrdinalIgnoreCase)) processText = value;
+                else if (name.Equals("titleKeywords", StringComparison.OrdinalIgnoreCase)) titleText = value;
+                else if (name.Equals("allowFocusedProcess", StringComparison.OrdinalIgnoreCase)) focusedText = value;
             }
         }
 
@@ -43,6 +58,20 @@ internal static class HotkeyConfig
         quit = Parse(quitText);
         if (toggle.Modifiers == quit.Modifiers && toggle.Key == quit.Key)
             throw new FormatException("隐藏键和退出键不能相同。");
+        ProcessNames = ParseList(processText);
+        TitleKeywords = ParseList(titleText).ToArray();
+        if (ProcessNames.Count == 0 || TitleKeywords.Length == 0)
+            throw new FormatException("processNames 和 titleKeywords 不能为空。");
+        if (!Boolean.TryParse(focusedText, out AllowFocusedProcess))
+            throw new FormatException("allowFocusedProcess 只能是 true 或 false。");
+    }
+
+    private static HashSet<string> ParseList(string value)
+    {
+        HashSet<string> result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (string item in value.Split(','))
+            if (item.Trim().Length != 0) result.Add(item.Trim());
+        return result;
     }
 
     private static Hotkey Parse(string value)
@@ -74,3 +103,4 @@ internal static class HotkeyConfig
         return new Hotkey { Modifiers = modifiers, Key = key, Label = value };
     }
 }
+

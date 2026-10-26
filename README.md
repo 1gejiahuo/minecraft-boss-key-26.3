@@ -1,10 +1,10 @@
-# Minecraft Boss Key 26.3
+# Minecraft Boss Key：Java 版 1.0 起
 
 老板或家长突然走到电脑旁？**Ctrl+Shift+C 一键收起 Minecraft**：游戏画面从桌面和任务栏消失，声音同步安静；等查岗结束，再按一次就能回到游戏，不必退出世界或重新进服务器。快捷键是 Windows 全局热键，游戏窗口隐藏后依然可以触发。
 
-项目提供 **Windows 独立程序** 与 **Fabric 客户端 Mod** 两种实现；任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
+项目提供 **Windows 通用独立程序** 与 **26.3 Fabric 客户端 Mod** 两种实现。独立程序面向 Windows 上 Java 版 1.0 起的正式版及愚人节版：它操作游戏窗口和音频会话，不依赖游戏内部接口，所以无需为每个版本安装 Mod。任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
 
-> 目前为预览版：两种实现均已编译，但尚未在真实 Minecraft 26.3 游戏窗口中完成隐藏、恢复和独占全屏测试。
+> 目前为预览版：代码已编译，但尚未逐一在所有正式版和愚人节版中实机验证。不同启动器、Java 运行时和全屏方式可能需要调整配置；见下方兼容说明。
 
 ## 查岗时会发生什么
 
@@ -18,23 +18,23 @@
 
 | 版本 | 安装方式 | 隐藏时的声音 | 适用范围 |
 | --- | --- | --- | --- |
-| Windows 独立程序 | 运行 `BossKey-26.3.exe`；无需 Mod | 将 Minecraft 音频会话静音，恢复时还原原状态 | Windows + Minecraft Java 26.3；识别标题含 Minecraft 的 java/javaw 窗口 |
+| Windows 独立程序 | 运行 `BossKey-Minecraft-Java.exe`；无需 Mod | 将游戏音频会话静音，恢复时还原原状态 | Windows + Java 版 1.0 起正式版及愚人节版；识别游戏所在的 Java 窗口 |
 | Fabric Mod | 将 `boss-key-26.3-0.1.0.jar` 放入 `mods` | 暂停游戏音效，恢复时继续 | Minecraft Java 26.3 + Fabric Loader + Fabric API + Java 25 |
 
 两个版本都不创建托盘图标。隐藏游戏窗口后，任务栏中不应再显示该游戏窗口；程序或游戏进程仍在任务管理器中运行。隐藏不会暂停多人服务器，也不会断开连接。
 
 ## 下载与使用
 
-从本仓库的 [downloads](downloads/) 目录下载所需文件：Windows 用户下载 `BossKey-26.3.exe` 和 `BossKey.ini`，Fabric 用户下载 `boss-key-26.3-0.1.0.jar`。
+从本仓库的 [downloads](downloads/) 目录下载所需文件：Windows 用户下载 `BossKey-Minecraft-Java.exe` 和 `BossKey.ini`，26.3 Fabric 用户下载 `boss-key-26.3-0.1.0.jar`。
 
 ### Windows 独立程序
 
 1. 启动 Minecraft。
-2. 运行 `BossKey-26.3.exe`。程序本身没有控制台窗口、任务栏按钮或托盘图标。
+2. 运行 `BossKey-Minecraft-Java.exe`。程序本身没有控制台窗口、任务栏按钮或托盘图标。
 3. 按默认 **Ctrl+Shift+C** 隐藏游戏，再按一次恢复。
 4. 按 **Ctrl+Shift+X** 退出独立程序；退出前会尝试恢复游戏窗口和声音。
 
-若热键被其他软件占用，程序会提示并退出。错误日志位于 `%LOCALAPPDATA%\MinecraftBossKey\bosskey.log`。这个程序需要 Windows 的 .NET Framework 4.8。
+若热键被其他软件占用，程序会提示并退出。错误日志位于 `%LOCALAPPDATA%\MinecraftBossKey\bosskey.log`。这个程序需要 Windows 的 .NET Framework 4.8。默认会识别当前前台的 `java.exe` 或 `javaw.exe` 游戏窗口；即使愚人节版窗口标题不是 Minecraft，也能通过前台窗口操作。若游戏不在前台，则按窗口标题里的 `Minecraft` 查找。
 
 ### Fabric Mod
 
@@ -48,7 +48,7 @@ Mod 仅安装在客户端；服务器无需安装。需要 Java 25。
 
 用记事本修改配置文件，保存后**重启独立程序或 Minecraft** 即可生效。无需重新编译。
 
-- **Windows 独立程序：**编辑与 `BossKey-26.3.exe` 同目录的 `BossKey.ini`。下载包已附此文件；如果缺失，首次运行会尝试自动生成。
+- **Windows 独立程序：**编辑与 `BossKey-Minecraft-Java.exe` 同目录的 `BossKey.ini`。下载目录已附此文件；如果缺失，首次运行会尝试自动生成。
 - **Fabric Mod：**首次启动后编辑游戏实例目录里的 `config/bosskey.properties`。
 
 独立版示例：
@@ -56,6 +56,9 @@ Mod 仅安装在客户端；服务器无需安装。需要 Java 25。
 ```ini
 hotkey=CTRL+ALT+H
 exitHotkey=CTRL+SHIFT+X
+processNames=java,javaw
+titleKeywords=Minecraft
+allowFocusedProcess=true
 ```
 
 Mod 示例：
@@ -65,6 +68,12 @@ hotkey=CTRL+ALT+H
 ```
 
 可用 `CTRL`、`SHIFT`、`ALT` 搭配一个字母、数字或 `F1`–`F11`；至少要有一个修饰键。独立版的隐藏键和退出键不能相同，也不要选择已被其他程序占用的组合。
+
+### 旧版、愚人节版或第三方启动器识别不到窗口
+
+优先切到游戏窗口再按隐藏键。`allowFocusedProcess=true` 允许隐藏当前前台的 Java 窗口，不依赖窗口标题；因此仅在游戏位于前台时按键。若启动器使用自定义进程名，将该名称加入 `processNames`，用英文逗号分隔。若窗口标题里不含 Minecraft，且希望游戏不在前台时也能找到它，将标题中稳定的关键词加入 `titleKeywords`。修改后重启程序。可以把 `allowFocusedProcess` 设为 `false`，要求标题必须匹配关键词。
+
+示例：`processNames=java,javaw,customjava` 与 `titleKeywords=Minecraft,Minecraft 2.0`。不要填宽泛的关键词，否则可能匹配其他 Java 窗口。
 
 ## 构建
 
@@ -86,11 +95,12 @@ hotkey=CTRL+ALT+H
 .\build.ps1
 ```
 
-需要 Windows 的 .NET Framework 4.8 C# 编译器，无需 NuGet 包。产物为 `windows-app/BossKey-26.3.exe`。
+需要 Windows 的 .NET Framework 4.8 C# 编译器，无需 NuGet 包。产物为 `windows-app/BossKey-Minecraft-Java.exe`。
 
 ## 已知限制
 
-- 独立程序通过窗口标题与进程名查找游戏；若启动器或 Mod 修改了标题，可能无法识别。
+- 独立程序通过前台 Java 窗口，或进程名加窗口标题查找游戏。自定义 Java 启动器可通过 `BossKey.ini` 调整识别规则。
+- 这是一套跨版本的窗口操作方案，不代表每个正式版和愚人节版都已经实机测试。部分特殊启动方式或全屏模式可能无法隐藏、恢复或静音。
 - 目前没有可视化设置界面，快捷键通过文本配置修改。
 - 独占全屏模式尚未实测；首次使用建议先在窗口化或无边框全屏模式验证。
 - 如果独立程序异常退出，Windows 可能保留游戏音频会话的静音状态，可在音量混合器中手动解除。
@@ -99,7 +109,7 @@ hotkey=CTRL+ALT+H
 ## 源码
 
 - `fabric-mod/`：Fabric 26.3 客户端 Mod。
-- `windows-app/`：不依赖 Minecraft Mod 的 Windows 后台程序。
+- `windows-app/`：面向 Java 版 1.0 起正式版及愚人节版的 Windows 后台程序。
 
 基于 [Fabric 官方示例项目](https://github.com/FabricMC/fabric-example-mod)搭建 Mod 构建结构。欢迎通过 Issues 提交 26.3 实机测试结果和问题复现步骤。
 
@@ -111,7 +121,7 @@ MIT License，见 [LICENSE](LICENSE)。
 
 ## English
 
-A boss key for surprise workplace or parent check-ins: press Ctrl+Shift+C to hide the Minecraft window, remove its taskbar button, and quiet the game; press it again to return. Choose either the standalone Windows application or the Fabric client mod. **Ctrl+Shift+C** hides and restores the game window. The standalone app uses **Ctrl+Shift+X** to exit safely. Edit `BossKey.ini` for the standalone app or `config/bosskey.properties` for the mod, then restart to change the shortcut. Both builds compile, but in-game behavior, especially exclusive fullscreen, has not yet been verified. See the Chinese sections above for installation, build commands, and limitations.
+A boss key for surprise workplace or parent check-ins: press Ctrl+Shift+C to hide the Minecraft window, remove its taskbar button, and quiet the game; press it again to return. The Windows standalone app targets Java Edition releases from 1.0 onward, including April Fools builds, through window and audio APIs; the Fabric mod targets 26.3. **Ctrl+Shift+X** exits the standalone app safely. Edit `BossKey.ini` for shortcuts and window matching, or `config/bosskey.properties` for the mod shortcut, then restart. The builds compile, but every game version and fullscreen mode has not been tested. See the Chinese sections above for installation, build commands, and limitations.
 
 
 
