@@ -25,7 +25,7 @@
 
 ## 下载与使用
 
-从本仓库的 [downloads](downloads/) 目录下载所需文件：Windows 用户下载 `BossKey-Minecraft-Java.exe` 和 `BossKey.ini`，26.3 Fabric 用户下载 `boss-key-26.3-0.1.0.jar`。
+从本仓库的 [downloads](downloads/) 目录下载所需文件。也可以下载 `minecraft-boss-key-java-1.0-plus-preview.zip`，内含两个程序文件、快捷键配置和说明。Windows 用户单独下载 `BossKey-Minecraft-Java.exe` 和 `BossKey.ini`；26.3 Fabric 用户单独下载 `boss-key-26.3-0.1.0.jar`。
 
 ### Windows 独立程序
 
