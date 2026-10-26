@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0-preview — 2026-10-26
+
+- Added a Java 8 bytecode Fabric entrypoint for Fabric-supported versions. It launches the bundled Windows helper with the game process ID.
+- Added process-targeted window selection and automatic helper exit after the game process ends.
+- Kept the 26.3 native Fabric mod as a separate option.
+- Cross-version game runtime tests are still pending.
+
 ## 0.2.0-preview — 2026-10-26
 
 - Extended the Windows application to target Minecraft Java Edition releases from 1.0 onward, including April Fools builds, without game-version-specific code.

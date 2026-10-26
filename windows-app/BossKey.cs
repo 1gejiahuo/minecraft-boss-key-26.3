@@ -18,11 +18,21 @@ internal static class BossKey
 
     private static IntPtr hiddenWindow = IntPtr.Zero;
     private static int hiddenProcessId;
+    private static int targetProcessId;
     private static readonly Dictionary<string, bool> oldMuteStates = new Dictionary<string, bool>();
 
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
+        foreach (string arg in args)
+        {
+            if (!arg.StartsWith("--pid=", StringComparison.OrdinalIgnoreCase) ||
+                !Int32.TryParse(arg.Substring(6), out targetProcessId) || targetProcessId <= 0)
+            {
+                MessageBox.Show("无效启动参数。", "Minecraft 老板键", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
         Hotkey toggleKey;
         Hotkey quitKey;
         try { HotkeyConfig.Load(out toggleKey, out quitKey); }
@@ -53,8 +63,14 @@ internal static class BossKey
                     if (message.wParam.ToInt64() == ToggleId) Toggle();
                     else if (message.wParam.ToInt64() == QuitId) { Restore(); if (hiddenWindow == IntPtr.Zero) break; }
                 }
-                else if (message.message == WmTimer && hiddenWindow != IntPtr.Zero)
+                else if (message.message == WmTimer)
                 {
+                    if (targetProcessId != 0 && !IsProcessAlive(targetProcessId))
+                    {
+                        Restore();
+                        break;
+                    }
+                    if (hiddenWindow == IntPtr.Zero) continue;
                     if (!IsWindow(hiddenWindow))
                     {
                         hiddenWindow = IntPtr.Zero;
@@ -130,6 +146,18 @@ internal static class BossKey
     private static IntPtr FindMinecraftWindow()
     {
         IntPtr foreground = GetForegroundWindow();
+        if (targetProcessId != 0)
+        {
+            if (IsTargetWindow(foreground)) return foreground;
+            IntPtr target = IntPtr.Zero;
+            EnumWindows(delegate(IntPtr window, IntPtr ignored)
+            {
+                if (!IsTargetWindow(window)) return true;
+                target = window;
+                return false;
+            }, IntPtr.Zero);
+            return target;
+        }
         if (IsMinecraftWindow(foreground, true)) return foreground;
 
         IntPtr found = IntPtr.Zero;
@@ -143,6 +171,21 @@ internal static class BossKey
             return true;
         }, IntPtr.Zero);
         return found;
+    }
+
+    private static bool IsTargetWindow(IntPtr window)
+    {
+        if (window == IntPtr.Zero || !IsWindowVisible(window) || GetWindowTextLength(window) == 0) return false;
+        uint pid;
+        GetWindowThreadProcessId(window, out pid);
+        return pid == unchecked((uint)targetProcessId);
+    }
+
+    private static bool IsProcessAlive(int pid)
+    {
+        try { return !Process.GetProcessById(pid).HasExited; }
+        catch (ArgumentException) { return false; }
+        catch { return true; }
     }
 
     private static bool IsMinecraftWindow(IntPtr window, bool isForeground)
