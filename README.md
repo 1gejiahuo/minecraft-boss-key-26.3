@@ -25,7 +25,7 @@
 
 ## 下载与使用
 
-从本仓库的 **Releases** 下载所需文件。
+从本仓库的 [downloads](downloads/) 目录下载所需文件：Windows 用户下载 `BossKey-26.3.exe` 和 `BossKey.ini`，Fabric 用户下载 `boss-key-26.3-0.1.0.jar`。
 
 ### Windows 独立程序
 
