@@ -1,0 +1,9 @@
+[
+  {
+    "modid": "bosskeyforge",
+    "name": "Boss Key Forge",
+    "description": "Experimental Windows boss key for Forge 1.7.x.",
+    "version": "0.6.0-preview",
+    "mcversion": ""
+  }
+]

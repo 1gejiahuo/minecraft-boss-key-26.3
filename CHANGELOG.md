@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0-preview — 2026-10-27
+
+- Added experimental family JARs for Forge 1.7, 1.8–1.12, 1.13+, and NeoForge 1.20.2–1.20.4 and 1.20.5+.
+- Compiled against official loader artifacts and checked bundled helper and metadata. Per-version in-game testing remains pending.
+- The Windows standalone app remains the route for Minecraft 1.0+ builds without a supported loader.
+
 ## 0.5.0-preview — 2026-10-27
 
 - Added Forge 1.20.1 and NeoForge 1.21.1 entrypoint JARs.
@@ -34,5 +40,4 @@
 - Added Ctrl+Shift+X safe exit to the standalone application.
 - Added editable hotkey configuration for both implementations.
 - Confirmed both builds compile. In-game behavior remains unverified.
-
 

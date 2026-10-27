@@ -1,0 +1,10 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="bosskeyneoforge"
+version="0.6.0-preview"
+displayName="Boss Key NeoForge"
+description="Experimental Windows boss key for NeoForge 1.20.5 and later."
+

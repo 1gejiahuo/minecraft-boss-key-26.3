@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+license="MIT"
+clientSideOnly=true
+
+[[mods]]
+modId="bosskeyforge"
+version="0.6.0-preview"
+displayName="Boss Key Forge"
+description="Experimental Windows boss key for Forge 1.13 and later."
+

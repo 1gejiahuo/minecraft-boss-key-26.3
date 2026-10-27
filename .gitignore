@@ -20,7 +20,16 @@ forge-1.20.1/.deps/
 forge-1.20.1/out/
 neoforge-1.21.1/.deps/
 neoforge-1.21.1/out/
+forge-modern/.deps/
+forge-modern/out/
+forge-legacy/.deps/
+forge-legacy/out/
+forge-1.7/.deps/
+forge-1.7/out/
+neoforge-modern/.deps/
+neoforge-modern/out/
+neoforge-early/.deps/
+neoforge-early/out/
 
 # Local logs
 *.log
-

@@ -2,7 +2,7 @@
 
 老板或家长突然走到电脑旁？**Ctrl+Shift+C 一键收起 Minecraft**：游戏画面从桌面和任务栏消失，声音同步安静；等查岗结束，再按一次就能回到游戏，不必退出世界或重新进服务器。快捷键是 Windows 全局热键，游戏窗口隐藏后依然可以触发。
 
-项目提供 **Windows 通用独立程序**、**Fabric 通用入口**、**26.3 原生 Fabric Mod**，以及 Forge、NeoForge 的指定版本适配入口。独立程序面向 Windows 上 Java 版 1.0 起的正式版及愚人节版。各加载器入口内置并启动同一 Windows 程序，通过游戏进程 ID 精确识别窗口。任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
+项目提供 **Windows 通用独立程序**、**Fabric 通用入口**、**26.3 原生 Fabric Mod**，以及 Forge、NeoForge 的跨版本实验入口。独立程序面向 Windows 上 Java 版 1.0 起的正式版及愚人节版。各加载器入口内置并启动同一 Windows 程序，通过游戏进程 ID 精确识别窗口。任选一种即可，不能同时运行，因为它们会争用同一个全局快捷键。
 
 > 目前为预览版：代码已编译，但尚未逐一在所有正式版和愚人节版中实机验证。不同启动器、Java 运行时和全屏方式可能需要调整配置；见下方兼容说明。
 
@@ -25,6 +25,9 @@
 | Forge 1.12.2 | 将 `boss-key-forge-1.12.2-0.4.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Minecraft Java 1.12.2 + Forge + Windows 64 位 + .NET Framework 4.8 |
 | Forge 1.20.1 | 将 `boss-key-forge-1.20.1-0.5.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Minecraft Java 1.20.1 + Forge 47.x + Windows 64 位 + .NET Framework 4.8 |
 | NeoForge 1.21.1 | 将 `boss-key-neoforge-1.21.1-0.5.0-preview.jar` 放入 `mods` | 内置的 Windows 程序静音游戏音频会话 | Minecraft Java 1.21.1 + NeoForge 21.1.x + Windows 64 位 + .NET Framework 4.8 |
+| Forge 旧版实验入口 | `boss-key-forge-1.7-0.6.0-preview.jar` 或 `boss-key-forge-legacy-0.6.0-preview.jar` | 同上 | 分别面向 Forge 1.7.x、Forge 1.8–1.12；实际支持取决于该游戏版本是否有 Forge |
+| Forge 新版实验入口 | `boss-key-forge-modern-0.6.0-preview.jar` | 同上 | 面向 Forge 1.13+；需对应游戏版本的 Forge |
+| NeoForge 实验入口 | `boss-key-neoforge-early-0.6.0-preview.jar` 或 `boss-key-neoforge-modern-0.6.0-preview.jar` | 同上 | 分别面向 NeoForge 1.20.2–1.20.4、1.20.5+；需对应游戏版本的 NeoForge |
 
 这些版本都不创建托盘图标。隐藏游戏窗口后，任务栏中不应再显示该游戏窗口；程序或游戏进程仍在任务管理器中运行。隐藏不会暂停多人服务器，也不会断开连接。
 
@@ -54,7 +57,7 @@ Quilt Loader 通常可以加载 Fabric Mod；可以尝试同一个 Fabric 通用
 
 ### Forge 和 NeoForge
 
-将对应游戏版本的 JAR 放入实例的 `mods` 文件夹。启动后，入口会把内置程序释放到 `config/bosskey-neoforge-0.4.0/`、`config/bosskey-forge-0.4.0/`、`config/bosskey-neoforge-0.5.0/` 或 `config/bosskey-forge-0.5.0/`，随后可用 **Ctrl+Shift+C** 隐藏或恢复。适配器已用官方加载器依赖编译并检查 JAR 内容，尚未在游戏中验证。其他 Forge/NeoForge 版本请使用 Windows 独立程序。
+将对应游戏版本的 JAR 放入实例的 `mods` 文件夹。启动后，入口会把内置程序释放到 `config/bosskey-neoforge-0.4.0/`、`config/bosskey-forge-0.4.0/`、`config/bosskey-neoforge-0.5.0/` 或 `config/bosskey-forge-0.5.0/`，随后可用 **Ctrl+Shift+C** 隐藏或恢复。另有 0.6.0 跨版本实验入口，见上表和 [兼容性说明](COMPATIBILITY.md)。这些入口使用官方加载器依赖编译并检查 JAR 内容，尚未逐版本进游戏验证。无法安装对应加载器的版本请使用 Windows 独立程序。
 
 ### 26.3 原生 Fabric Mod
 
@@ -70,7 +73,7 @@ Mod 仅安装在客户端；服务器无需安装。需要 Java 25。
 
 - **Windows 独立程序：**编辑与 `BossKey-Minecraft-Java.exe` 同目录的 `BossKey.ini`。下载目录已附此文件；如果缺失，首次运行会尝试自动生成。
 - **Fabric 通用入口：**编辑游戏实例目录里的 `config/bosskey-universal-0.3.0/BossKey.ini`。
-- **NeoForge / Forge 适配入口：**编辑实例目录 `config/bosskey-neoforge-0.4.0/`、`config/bosskey-forge-0.4.0/`、`config/bosskey-neoforge-0.5.0/` 或 `config/bosskey-forge-0.5.0/` 中的 `BossKey.ini`，以实际安装版本为准。
+- **NeoForge / Forge 适配入口：**编辑实例目录 `config/bosskey-neoforge-0.4.0/`、`config/bosskey-forge-0.4.0/`、`config/bosskey-neoforge-0.5.0/` 、`config/bosskey-forge-0.5.0/` 或对应 0.6.0 入口生成的 `config/bosskey-forge-1.7-0.6.0/`、`config/bosskey-forge-legacy-0.6.0/`、`config/bosskey-forge-modern-0.6.0/`、`config/bosskey-neoforge-early-0.6.0/`、`config/bosskey-neoforge-modern-0.6.0/` 中的 `BossKey.ini`。
 - **26.3 原生 Fabric Mod：**首次启动后编辑游戏实例目录里的 `config/bosskey.properties`。
 
 独立版示例：
@@ -155,6 +158,5 @@ MIT License，见 [LICENSE](LICENSE)。
 ## English
 
 A boss key for surprise workplace or parent check-ins: press Ctrl+Shift+C to hide the Minecraft window, remove its taskbar button, and quiet the game; press it again to return. The Windows app targets Java Edition 1.0 onward. The universal Fabric entrypoint bundles that Windows app and targets Fabric-supported versions from 1.14 onward, including April Fools builds when a loader is available. Quilt may load that Fabric jar. Separate adapters have been built for Forge 1.12.2 and 1.20.1, and NeoForge 1.21.1 and 26.3; the native Fabric mod targets 26.3. Edit `BossKey.ini` or `config/bosskey.properties` and restart to change shortcuts. Game runtime compatibility has not been verified across these versions.
-
 
 
