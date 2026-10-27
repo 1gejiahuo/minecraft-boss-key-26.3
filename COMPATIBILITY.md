@@ -20,5 +20,5 @@ This scope concerns Java Edition. It does not imply support for Bedrock Edition 
 
 ## Other loaders
 
-Quilt Loader generally accepts Fabric mods. This jar uses Fabric Loader APIs only, so it is a candidate for Quilt; Quilt runtime testing is still pending. Separate entrypoint JARs have been built for NeoForge 26.3 and Forge 1.12.2 using official loader compile dependencies. They bundle the same Windows helper and pass the game process ID. Their JAR structure has been checked, but no game runtime test has been performed. Other Forge/NeoForge versions can use the standalone Windows app until an adapter for that loader version is built and tested.
+Quilt Loader generally accepts Fabric mods. This jar uses Fabric Loader APIs only, so it is a candidate for Quilt; Quilt runtime testing is still pending. Separate entrypoint JARs have been built for Forge 1.12.2 and 1.20.1, and NeoForge 1.21.1 and 26.3 using official loader compile dependencies. They bundle the same Windows helper and pass the game process ID. Their JAR structure has been checked, but no game runtime test has been performed. Other Forge/NeoForge versions can use the standalone Windows app until an adapter for that loader version is built and tested.
 

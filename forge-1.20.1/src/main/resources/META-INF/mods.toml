@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+clientSideOnly=true
+
+[[mods]]
+modId="bosskeyforge"
+version="0.5.0-preview"
+displayName="Boss Key Forge"
+description="Windows boss key for Minecraft Java 1.20.1."
+
+[[dependencies.bosskeyforge]]
+modId="forge"
+mandatory=true
+versionRange="[47,48)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.bosskeyforge]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"
+

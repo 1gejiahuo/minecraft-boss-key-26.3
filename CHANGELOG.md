@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0-preview — 2026-10-27
+
+- Added Forge 1.20.1 and NeoForge 1.21.1 entrypoint JARs.
+- Kept all loader JARs version-specific; other versions use the standalone Windows app.
+- Runtime checks in the game are still pending.
+
 ## 0.4.0-preview — 2026-10-26
 
 - Built separate NeoForge 26.3 and Forge 1.12.2 entrypoint JARs with the bundled Windows helper.
